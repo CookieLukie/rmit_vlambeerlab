@@ -28,17 +28,46 @@ public class Pathmaker : MonoBehaviour
     void Update()
     {
         //		If counter is less than 50, then:
-        //			Generate a random number from 0.0f to 1.0f;
-        //			If random number is less than 0.25f, then rotate myself 90 degrees;
-        //				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
-        //				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
-        //			// end elseIf
+        if (counter < 50)
+        { 
+            //Generate a random number from 0.0f to 1.0f;
+            float randomNumber = Random.Range(0f, 1f);
+            //If random number is less than 0.25f, then rotate myself 90 degrees;
+            if (randomNumber < 0.25f)
+            {
+                transform.Rotate(new Vector3(0, 90, 0));
+            }
+            
+            //	... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
+            else if (randomNumber > 0.25f && randomNumber < 0.5f)
+            {
+                transform.Rotate(new Vector3(0, -90, 0 ));
+            }
 
-        //			Instantiate a floorPrefab clone at current position;
-        //			Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
-        //			Increment counter;
-        //		Else:
-        //			Destroy my game object; 		// self destruct if I've made enough tiles already
+            // Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
+            else if (randomNumber > 0.99f && randomNumber < 1f)
+            {
+                 Instantiate(pathmakerSpherePrefab,transform.position, Quaternion.identity);
+            }
+            // end elseIf
+
+
+            //Instantiate a floorPrefab clone at current position;
+            Instantiate(floorPrefab, transform.position, Quaternion.identity);
+            //Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
+            transform.Translate(0, 5, 0);
+            //			Increment counter;
+            counter++;
+        }
+
+
+        //Else:
+        else
+        {
+            //	Destroy my game object; 		// self destruct if I've made enough tiles alread
+            Destroy(this.gameObject);
+        }
+        
     }
 
 }
